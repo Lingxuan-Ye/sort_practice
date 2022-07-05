@@ -10,7 +10,7 @@ def timer(func: Callable):
         before = time()
         result = func(*args, **kwargs)
         after = time()
-        print(f"runtime = {after - before}")
+        print(f"runtime = {after - before} seconds")
         return result
 
     return wrapper
