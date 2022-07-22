@@ -1,7 +1,7 @@
-from timer import timer
+import testutils
 
 
-@timer
+@testutils.timer
 def insert_sort(lst: list):
     for i in range(1, len(lst)):
         temp = lst[i]
@@ -10,3 +10,7 @@ def insert_sort(lst: list):
             lst[j + 1] = lst[j]
             j -= 1
         lst[j + 1] = temp
+
+
+if __name__ == "__main__":
+    testutils.test(insert_sort)

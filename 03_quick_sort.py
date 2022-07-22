@@ -1,4 +1,4 @@
-from timer import timer
+import testutils
 
 
 def partition(lst: list, lower: int, upper: int):
@@ -10,7 +10,7 @@ def partition(lst: list, lower: int, upper: int):
         while lower < upper and lst[lower] <= temp:
             lower += 1
         lst[upper] = lst[lower]
-    lst[lower] = temp
+    lst[lower] = temp  # at this point, lower == upper
     return lower
 
 
@@ -21,7 +21,7 @@ def _quick_sort_recursive(lst: list, lower: int, upper: int):
         _quick_sort_recursive(lst, mid + 1, upper)
 
 
-@timer
+@testutils.timer
 def quick_sort_recursive(lst: list):
     if not lst:
         return
@@ -35,7 +35,7 @@ class Node:
         self.upper: int = upper
 
 
-@timer
+@testutils.timer
 def quick_sort_non_recursive_Node(lst: list):
     if not lst:
         return
@@ -49,7 +49,7 @@ def quick_sort_non_recursive_Node(lst: list):
             temp.append(Node(mid + 1, node.upper))
 
 
-@timer
+@testutils.timer
 def quick_sort_non_recursive_tuple(lst: list):
     if not lst:
         return
@@ -67,22 +67,17 @@ quick_sort = quick_sort_non_recursive_tuple
 
 if __name__ == "__main__":
 
-    import random
-
-    lst = [random.randrange(0, 1_000_000) for i in range(1_000_000)]
-    lst_ = [*lst]
-    lst__ = [*lst]
-    # print(lst == lst_ == lst__)
-    # print(lst)
-    quick_sort_recursive(lst)
-    quick_sort_non_recursive_Node(lst_)
-    quick_sort_non_recursive_tuple(lst__)
-    # print(lst)
+    testutils.test(
+        quick_sort_recursive,
+        quick_sort_non_recursive_Node,
+        quick_sort_non_recursive_tuple,
+        length=1_000_000
+    )
 
 # 总结
 
 # - 控制变量以后, 快速排序的非递归实现 `quick_sort_non_recursive_tuple` 相较于
-#   递归实现 `quick_sort_recursive` 略快.
+#   递归实现 `quick_sort_recursive` 无明显区别.
 
 # - `quick_sort_non_recursive_Node` 明显慢于前两者, 这可能是 `Node` 实例化所致.
 
