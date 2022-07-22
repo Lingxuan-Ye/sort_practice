@@ -66,7 +66,6 @@ def quick_sort_non_recursive_tuple(lst: list):
 quick_sort = quick_sort_non_recursive_tuple
 
 if __name__ == "__main__":
-
     testutils.test(
         quick_sort_recursive,
         quick_sort_non_recursive_Node,
@@ -75,6 +74,8 @@ if __name__ == "__main__":
     )
 
 # 总结
+
+# - 快速排序的时间复杂度为 O(nlogn)
 
 # - 控制变量以后, 快速排序的非递归实现 `quick_sort_non_recursive_tuple` 相较于
 #   递归实现 `quick_sort_recursive` 无明显区别.

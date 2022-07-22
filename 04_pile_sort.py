@@ -46,3 +46,9 @@ def heap_sort(lst: list):
 
 if __name__ == "__main__":
     testutils.test(heap_sort, length=1_000_000)
+
+# 总结
+
+# - 堆排序的时间复杂度为 O(nlogn), 但是在实际表现上要慢于快速排序.
+
+# - Python 的堆队列算法实现详见 `heapq` 模块, 该模块只实现了 min-heap.
