@@ -1,7 +1,7 @@
 from functools import wraps
 from random import shuffle
 from time import time
-from typing import Callable
+from typing import Callable, List
 
 
 def timer(func: Callable):
@@ -25,7 +25,7 @@ def test(*func: Callable[[list], list | None], length: int = 1_000):
     testlist = [i for i in range(length)]
     shuffle(testlist)
     print("raw:\n" + _abbr(testlist), end="\n\n")
-    result: list[list] = []
+    result: List[list] = []
     for i in func:
         list_i = testlist.copy()
         result_i = i(list_i)
