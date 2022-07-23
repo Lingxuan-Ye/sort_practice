@@ -3,16 +3,16 @@ from typing import List, Tuple
 import testutils
 
 
-def _hanoi(level: int, from_: str, via: str, to: str) -> None:
+def _hanoi(level: int, pillars: Tuple[str, str, str]) -> None:
     if level > 0:
-        _hanoi(level-1, from_=from_, via=to, to=via)
-        print(f"from {from_} move to {to}", end="\n\n")
-        _hanoi(level-1, from_=via, via=from_, to=to)
+        _hanoi(level-1, (pillars[0], pillars[2], pillars[1]))
+        print(f"from {pillars[0]} move to {pillars[2]}", end="\n\n")
+        _hanoi(level-1, (pillars[1], pillars[0], pillars[2]))
 
 
 @testutils.timer
-def hanoi(level: int, from_: str, via: str, to: str) -> None:
-    _hanoi(level, from_, via, to)
+def hanoi(level: int, pillars: Tuple[str, str, str]) -> None:
+    _hanoi(level, pillars)
 
 
 class Hanoi:
@@ -51,6 +51,6 @@ def hanoi_(level: int, pillars: Tuple[str, str, str]) -> None:
 
 
 if __name__ == "__main__":
-    hanoi(20, "Pillar A", "Pillar B", "Pillar C")
+    hanoi(20, ("Pillar A", "Pillar B", "Pillar C"))
     print("\n\n", end="")
     hanoi_(20, ("Pillar A", "Pillar B", "Pillar C"))
