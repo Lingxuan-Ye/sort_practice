@@ -46,23 +46,34 @@ def binary_search(list_: list, value: int) -> int:
         Index of value.
         Returns -1 if no result.
     """
-    # lower: int = 0
-    # upper: int = len(list_) - 1
-    # if value < list_[lower] or value > list_[upper]:
-    #     return -1
-    # while lower <= upper:
-    #     mid = (upper - lower) // 2
-    #     mid_value = list_[mid]
-    #     if value ==mid_value:
-    #         return mid
-    #     elif value < mid_value:
-    #         upper = mid - 1
-    #     else:
-    #         lower = mid + 1
-    # return -1
-
+    lower: int = 0
+    upper: int = len(list_) - 1
+    if value < list_[lower] or value > list_[upper]:
+        return -1
+    while lower <= upper:
+        mid = (upper + lower) // 2
+        mid_value = list_[mid]
+        if value == mid_value:
+            upper = mid
+            break
+        elif value < mid_value:
+            upper = mid - 1
+        else:
+            lower = mid + 1
+    else:
+        return -1
+    while lower < upper:
+        mid = (upper + lower) // 2
+        mid_value = list_[mid]
+        if value == mid_value:
+            upper = mid
+        else:
+            lower = mid + 1
+    return lower
 
 if __name__ == "__main__":
     from random import randrange
-    testlist = sorted([randrange(0, 1_000_000) for _ in range(1_000_000)])
+    testlist = [randrange(0, 100_000) for _ in range(100_000)] * 10
+    testlist.sort()
     print(_binary_search(testlist, 1000))
+    print(binary_search(testlist, 1000))
