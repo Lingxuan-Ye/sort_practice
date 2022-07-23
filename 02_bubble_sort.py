@@ -15,4 +15,4 @@ def bubble_sort(lst: list):
 
 
 if __name__ == "__main__":
-    testutils.test(bubble_sort)
+    testutils.sort_test(bubble_sort)

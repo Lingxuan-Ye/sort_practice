@@ -1,31 +1,31 @@
 import testutils
 
 
-def partition(lst: list, lower: int, upper: int):
-    temp = lst[lower]
+def partition(list_: list, lower: int, upper: int):
+    temp = list_[lower]
     while lower < upper:
-        while lower < upper and lst[upper] >= temp:
+        while lower < upper and list_[upper] >= temp:
             upper -= 1
-        lst[lower] = lst[upper]
-        while lower < upper and lst[lower] <= temp:
+        list_[lower] = list_[upper]
+        while lower < upper and list_[lower] <= temp:
             lower += 1
-        lst[upper] = lst[lower]
-    lst[lower] = temp  # at this point, lower == upper
+        list_[upper] = list_[lower]
+    list_[lower] = temp  # at this point, lower == upper
     return lower
 
 
-def _quick_sort_recursive(lst: list, lower: int, upper: int):
+def _quick_sort_recursive(list_: list, lower: int, upper: int):
     if lower < upper:
-        mid = partition(lst, lower, upper)
-        _quick_sort_recursive(lst, lower, mid - 1)
-        _quick_sort_recursive(lst, mid + 1, upper)
+        mid = partition(list_, lower, upper)
+        _quick_sort_recursive(list_, lower, mid - 1)
+        _quick_sort_recursive(list_, mid + 1, upper)
 
 
 @testutils.timer
-def quick_sort_recursive(lst: list):
-    if not lst:
+def quick_sort_recursive(list_: list):
+    if not list_:
         return
-    _quick_sort_recursive(lst, 0, len(lst) - 1)
+    _quick_sort_recursive(list_, 0, len(list_) - 1)
 
 
 class Node:
@@ -36,13 +36,13 @@ class Node:
 
 
 @testutils.timer
-def quick_sort_non_recursive_Node(lst: list):
-    if not lst:
+def quick_sort_non_recursive_Node(list_: list):
+    if not list_:
         return
-    temp = [Node(0, len(lst) - 1)]
+    temp = [Node(0, len(list_) - 1)]
     while temp:
         node = temp.pop()
-        mid = partition(lst, node.lower, node.upper)
+        mid = partition(list_, node.lower, node.upper)
         if node.lower < mid - 1:
             temp.append(Node(node.lower, mid - 1))
         if mid + 1 < node.upper:
@@ -50,13 +50,13 @@ def quick_sort_non_recursive_Node(lst: list):
 
 
 @testutils.timer
-def quick_sort_non_recursive_tuple(lst: list):
-    if not lst:
+def quick_sort_non_recursive_tuple(list_: list):
+    if not list_:
         return
-    temp = [(0, len(lst) - 1)]
+    temp = [(0, len(list_) - 1)]
     while temp:
         node = temp.pop()
-        mid = partition(lst, node[0], node[1])
+        mid = partition(list_, node[0], node[1])
         if node[0] < mid - 1:
             temp.append((node[0], mid - 1))
         if mid + 1 < node[1]:
@@ -66,7 +66,7 @@ def quick_sort_non_recursive_tuple(lst: list):
 quick_sort = quick_sort_non_recursive_tuple
 
 if __name__ == "__main__":
-    testutils.test(
+    testutils.sort_test(
         quick_sort_recursive,
         quick_sort_non_recursive_Node,
         quick_sort_non_recursive_tuple,
