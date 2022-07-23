@@ -1,11 +1,18 @@
 from typing import List, Tuple
 
+import testutils
+
 
 def _hanoi(level: int, from_: str, via: str, to: str) -> None:
     if level > 0:
         _hanoi(level-1, from_=from_, via=to, to=via)
-        print(f"from {from_} move to {to}")
+        print(f"from {from_} move to {to}", end="\n\n")
         _hanoi(level-1, from_=via, via=from_, to=to)
+
+
+@testutils.timer
+def hanoi(level: int, from_: str, via: str, to: str) -> None:
+    _hanoi(level, from_, via, to)
 
 
 class Hanoi:
@@ -13,26 +20,37 @@ class Hanoi:
     def __init__(self, level: int, pillars: Tuple[str, str, str]) -> None:
         self.level: int = level
         self.pillars: Tuple[str, str, str] = pillars
-        self.__result: List[Tuple[int, int]] = []
+        self.__result: List[int] = []
+        # available values:
+        # ternary: 01, 02, 10, 12, 20, 21
+        # decimal:  1,  2,  3,  5,  6,  7
 
     def _run(self, level: int, from_: int, via: int, to: int) -> None:
         if level > 0:
             self._run(level-1, from_=from_, via=to, to=via)
-            self.__result.append((from_, to))
+            self.__result.append(from_ * 3 + to)
             self._run(level-1, from_=via, via=from_, to=to)
 
     def run(self) -> None:
         self.__result.clear()
         self._run(self.level, from_=0, via=1, to=2)
+        print(f"Total: {len(self.__result)} times", end="\n\n")
+        for i, j in enumerate(self.__result):
+            from_, to = divmod(j, 3)
+            print(
+                f"Step {i}:",
+                f"from {self.pillars[from_]} to {self.pillars[to]}",
+                sep="\n",
+                end="\n\n"
+            )
 
-        print(f"Total Number of Operations: {len(self.__result)}\n")
-        for i, (j, k) in enumerate(self.__result):
-            print(f"Step {i}:\nfrom {self.pillars[j]} to {self.pillars[k]}\n")
 
-
-def hanoi(level: int, pillars: Tuple[str, str, str]) -> None:
+@testutils.timer
+def hanoi_(level: int, pillars: Tuple[str, str, str]) -> None:
     Hanoi(level, pillars).run()
 
+
 if __name__ == "__main__":
-    # _hanoi(4, "Pillar A", "Pillar B", "Pillar C")
-    hanoi(4, ("Pillar A", "Pillar B", "Pillar C"))
+    hanoi(20, "Pillar A", "Pillar B", "Pillar C")
+    print("\n\n", end="")
+    hanoi_(20, ("Pillar A", "Pillar B", "Pillar C"))
